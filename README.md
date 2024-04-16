@@ -9,12 +9,15 @@ editor based on the operational transformation algorithm. It lets users
 collaborate in real time while writing code in their browser. Rustpad is
 completely self-hosted and fits in a tiny Docker image, no database required.
 
-<p align="center">
-<a href="https://rustpad.io/">
-<img src="https://i.imgur.com/WjU5UrP.png" width="800"><br>
-<strong>rustpad.io</strong>
-</a>
-</p>
+This is Ostrovok! Tech edition of the original [Rustpad](https://rustpad.io/) and has the following changes:
+
+- added branding (texts and colors)
+- updated dependencies and Docker image building
+- moved to `pnpm` as the main frontend package manager
+- added `docker-compose.yml`
+- added sidebar toggle functionality and a dedicated button to toggle
+- improved usability of the name change form
+
 
 The server is written in Rust using the
 [warp](https://github.com/seanmonstar/warp) web server framework and the
@@ -44,7 +47,7 @@ When that is complete, you can install dependencies for the frontend React
 application:
 
 ```
-npm install
+pnpm install
 ```
 
 Next, compile and run the backend web server:
@@ -57,7 +60,7 @@ While the backend is running, open another shell and run the following command
 to start the frontend portion.
 
 ```
-npm run dev
+pnpm dev
 ```
 
 This command will open a browser window to `http://localhost:3000`, with hot
@@ -75,9 +78,8 @@ wasm-pack test --chrome --headless rustpad-wasm
 ## Configuration
 
 Although the default behavior of Rustpad is to store documents solely in memory
-and collect garbage after 24 hours of inactivity, this can be configured by
-setting the appropriate variables. The application server looks for the
-following environment variables on startup:
+and collect garbage after 24 hours of inactivity, it can be configured to use persistence.
+The application server looks for the following environment variables on startup:
 
 - `EXPIRY_DAYS`: An integer corresponding to the number of days that inactive
   documents are kept in memory before being garbage collected by the server

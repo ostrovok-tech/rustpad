@@ -10,23 +10,17 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Link,
   Select,
   Stack,
   Switch,
+  Link,
   Text,
   useToast,
 } from "@chakra-ui/react";
-import {
-  VscChevronRight,
-  VscFolderOpened,
-  VscGist,
-  VscRepoPull,
-} from "react-icons/vsc";
+import { VscChevronRight, VscFolderOpened, VscGist } from "react-icons/vsc";
 import useStorage from "use-local-storage-state";
 import Editor from "@monaco-editor/react";
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
-import rustpadRaw from "../rustpad-server/src/rustpad.rs?raw";
 import languages from "./languages.json";
 import animals from "./animals.json";
 import Rustpad, { UserInfo } from "./rustpad";
@@ -62,6 +56,7 @@ function App() {
   const [hue, setHue] = useStorage("hue", generateHue);
   const [editor, setEditor] = useState<editor.IStandaloneCodeEditor>();
   const [darkMode, setDarkMode] = useStorage("darkMode", () => false);
+  const [showSidebar, setShowSidebar] = useState(true);
   const rustpad = useRef<Rustpad>();
   const id = useHash();
 
@@ -136,28 +131,12 @@ function App() {
     });
   }
 
-  function handleLoadSample() {
-    if (editor?.getModel()) {
-      const model = editor.getModel()!;
-      model.pushEditOperations(
-        editor.getSelections(),
-        [
-          {
-            range: model.getFullModelRange(),
-            text: rustpadRaw,
-          },
-        ],
-        () => null
-      );
-      editor.setPosition({ column: 0, lineNumber: 0 });
-      if (language !== "rust") {
-        handleChangeLanguage("rust");
-      }
-    }
-  }
-
   function handleDarkMode() {
     setDarkMode(!darkMode);
+  }
+
+  function toggleSidebar() {
+    setShowSidebar(!showSidebar);
   }
 
   return (
@@ -186,6 +165,7 @@ function App() {
           maxW="full"
           lineHeight={1.4}
           py={4}
+          display={showSidebar ? "block" : "none"}
         >
           <ConnectionStatus darkMode={darkMode} connection={connection} />
 
@@ -256,38 +236,24 @@ function App() {
             About
           </Heading>
           <Text fontSize="sm" mb={1.5}>
-            <strong>Rustpad</strong> is an open-source collaborative text editor
-            based on the <em>operational transformation</em> algorithm.
+            <strong>Code by Ostrovok! Tech</strong> is an{" "}
+            <Link
+              href="https://github.com/ostrovok-tech/rustpad/tree/ostrovok"
+              target="_blank"
+              color="blue.300"
+            >
+              open-source
+            </Link>{" "}
+            fork of{" "}
+            <Link href="https://github.com/ekzhang/rustpad" target="_blank" color="blue.300">
+              Rustpad
+            </Link>{" "}
+            with a couple of modifications and improvements.
           </Text>
           <Text fontSize="sm" mb={1.5}>
             Share a link to this pad with others, and they can edit from their
             browser while seeing your changes in real time.
           </Text>
-          <Text fontSize="sm" mb={1.5}>
-            Built using Rust and TypeScript. See the{" "}
-            <Link
-              color="blue.600"
-              fontWeight="semibold"
-              href="https://github.com/ekzhang/rustpad"
-              isExternal
-            >
-              GitHub repository
-            </Link>{" "}
-            for details.
-          </Text>
-
-          <Button
-            size="sm"
-            colorScheme={darkMode ? "whiteAlpha" : "blackAlpha"}
-            borderColor={darkMode ? "purple.400" : "purple.600"}
-            color={darkMode ? "purple.400" : "purple.600"}
-            variant="outline"
-            leftIcon={<VscRepoPull />}
-            mt={1}
-            onClick={handleLoadSample}
-          >
-            Read the code
-          </Button>
         </Container>
         <Flex flex={1} minW={0} h="100%" direction="column" overflow="hidden">
           <HStack
@@ -318,7 +284,7 @@ function App() {
           </Box>
         </Flex>
       </Flex>
-      <Footer />
+      <Footer toggleSidebar={toggleSidebar} />
     </Flex>
   );
 }

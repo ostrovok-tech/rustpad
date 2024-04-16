@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  rustpad:
+    build: .
+    environment:
+      EXPIRY_DAYS: 14
+      SQLITE_URI: 'file:/app/data/db.sqlite'
+      PORT: 3030
+      RUST_LOG:
+    ports:
+      - "3030:3030"
+    volumes:
+      - "./tmp/:/app/data/"

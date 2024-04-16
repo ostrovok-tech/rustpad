@@ -13,7 +13,7 @@ function ConnectionStatus({ connection, darkMode }: ConnectionStatusProps) {
         as={VscCircleFilled}
         color={
           {
-            connected: "green.500",
+            connected: "#8FE855",
             disconnected: "orange.500",
             desynchronized: "red.500",
           }[connection]
@@ -21,14 +21,14 @@ function ConnectionStatus({ connection, darkMode }: ConnectionStatusProps) {
       />
       <Text
         fontSize="sm"
-        fontStyle="italic"
+        //fontStyle="italic"
         color={darkMode ? "gray.300" : "gray.600"}
       >
         {
           {
-            connected: "You are connected!",
-            disconnected: "Connecting to the server...",
-            desynchronized: "Disconnected, please refresh.",
+            connected: "Connected",
+            disconnected: "Lost connection, reconnecting...",
+            desynchronized: "Disconnected, please refresh the page",
           }[connection]
         }
       </Text>

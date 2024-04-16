@@ -38,6 +38,18 @@ function User({
   const inputRef = useRef<HTMLInputElement>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const isValidName = () => {
+    if (!inputRef.current) return false;
+    return inputRef.current.value.length > 0;
+  };
+
+  const onNameChangeSubmit = (e: SubmitEvent) => {
+    e.preventDefault();
+    onClose();
+    if (!isValidName()) return;
+    onChangeName?.(inputRef.current?.value ?? "");
+  };
+
   const nameColor = `hsl(${info.hue}, 90%, ${darkMode ? "70%" : "25%"})`;
   return (
     <Popover
@@ -67,43 +79,39 @@ function User({
         bgColor={darkMode ? "#333333" : "white"}
         borderColor={darkMode ? "#464647" : "gray.200"}
       >
-        <PopoverHeader
-          fontWeight="semibold"
-          borderColor={darkMode ? "#464647" : "gray.200"}
-        >
-          Update Info
-        </PopoverHeader>
-        <PopoverArrow bgColor={darkMode ? "#333333" : "white"} />
-        <PopoverCloseButton />
-        <PopoverBody borderColor={darkMode ? "#464647" : "gray.200"}>
-          <Input
-            ref={inputRef}
-            mb={2}
-            value={info.name}
-            maxLength={25}
-            onChange={(event) => onChangeName?.(event.target.value)}
-          />
-          <Button
-            size="sm"
-            w="100%"
-            leftIcon={<FaPalette />}
-            colorScheme={darkMode ? "whiteAlpha" : "gray"}
-            onClick={onChangeColor}
+        <form onSubmit={onNameChangeSubmit}>
+          <PopoverHeader
+            fontWeight="semibold"
+            borderColor={darkMode ? "#464647" : "gray.200"}
           >
-            Change Color
-          </Button>
-        </PopoverBody>
-        <PopoverFooter
-          d="flex"
-          justifyContent="flex-end"
-          borderColor={darkMode ? "#464647" : "gray.200"}
-        >
-          <ButtonGroup size="sm">
-            <Button colorScheme="blue" onClick={onClose}>
-              Done
+            Update Info
+          </PopoverHeader>
+          <PopoverArrow bgColor={darkMode ? "#333333" : "white"} />
+          <PopoverCloseButton />
+          <PopoverBody borderColor={darkMode ? "#464647" : "gray.200"}>
+            <Input ref={inputRef} mb={2} maxLength={25} />
+            <Button
+              size="sm"
+              w="100%"
+              leftIcon={<FaPalette />}
+              colorScheme={darkMode ? "whiteAlpha" : "gray"}
+              onClick={onChangeColor}
+            >
+              Change Color
             </Button>
-          </ButtonGroup>
-        </PopoverFooter>
+          </PopoverBody>
+          <PopoverFooter
+            d="flex"
+            justifyContent="flex-end"
+            borderColor={darkMode ? "#464647" : "gray.200"}
+          >
+            <ButtonGroup size="sm">
+              <Button colorScheme="blue" type="submit">
+                Done
+              </Button>
+            </ButtonGroup>
+          </PopoverFooter>
+        </form>
       </PopoverContent>
     </Popover>
   );

@@ -7,6 +7,7 @@ import {
   Heading,
   HStack,
   Icon,
+  Img,
   Input,
   InputGroup,
   InputRightElement,
@@ -232,9 +233,8 @@ function App() {
             ))}
           </Stack>
 
-          <Heading mt={4} mb={1.5} size="sm">
-            About
-          </Heading>
+          <Img src="/logo.svg" mx="auto" my="4" w="100px" />
+
           <Text fontSize="sm" mb={1.5}>
             <strong>Code by Ostrovok! Tech</strong> is an{" "}
             <Link
@@ -245,7 +245,11 @@ function App() {
               open-source
             </Link>{" "}
             fork of{" "}
-            <Link href="https://github.com/ekzhang/rustpad" target="_blank" color="blue.300">
+            <Link
+              href="https://github.com/ekzhang/rustpad"
+              target="_blank"
+              color="blue.300"
+            >
               Rustpad
             </Link>{" "}
             with a couple of modifications and improvements.

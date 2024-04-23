@@ -24,6 +24,7 @@ import Editor from "@monaco-editor/react";
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
 import languages from "./languages.json";
 import animals from "./animals.json";
+import adjectives from "./adjectives.json";
 import Rustpad, { UserInfo } from "./rustpad";
 import useHash from "./useHash";
 import ConnectionStatus from "./ConnectionStatus";
@@ -39,7 +40,11 @@ function getWsUri(id: string) {
 }
 
 function generateName() {
-  return "Anonymous " + animals[Math.floor(Math.random() * animals.length)];
+  let adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+  let animal = animals[Math.floor(Math.random() * animals.length)];
+  adjective = adjective.charAt(0).toUpperCase() + adjective.slice(1);
+  animal = animal.charAt(0).toUpperCase() + animal.slice(1);
+  return `${adjective} ${animal}`;
 }
 
 function generateHue() {

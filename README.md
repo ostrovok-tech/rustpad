@@ -17,6 +17,8 @@ This is Ostrovok! Tech edition of the original [Rustpad](https://rustpad.io/) an
 - added `docker-compose.yml`
 - added sidebar toggle functionality and a dedicated button to toggle
 - improved usability of the name change form
+- monaco-editor loader is modified to serve files from rustpad's own server, instead of the CDN
+- added PostgreSQL as an option for persistent storage backend
 
 
 The server is written in Rust using the
